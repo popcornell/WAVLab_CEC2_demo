@@ -1,0 +1,247 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>Demo for the WavLab Clarity Challenge 2 (CEC2) System Submission.</title>
+      <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+      <!-- <link rel="shortcut icon" href="../../images/taco.png"> -->
+      <script>
+         function play(path) {{
+           var player = document.getElementById('player');
+           player.src = path;
+           player.play();
+         }}
+      </script>
+      <style>
+         .audio-cell {
+         /* Center audio widgets in the table cell. */
+         text-align: center;
+         padding-bottom: 1px;
+         padding-top: 1px;
+         }
+         .audio-cell-padded {
+         text-align: center;
+         padding-bottom: 10px;
+         padding-top: 10px;
+         }
+         .audio-header {
+         /* Don't wrap header text. */
+         white-space: nowrap;
+         /* Some breaking space between headers for readability. */
+         padding-right: 5px;
+         padding-left: 5px;
+         }
+         .reference-cell {
+         /* For uniformity and to wrap long reference text, limit the reference cell's width. */
+         width: 25%;
+         padding-top: 20px;
+         padding-bottom: 20px;
+         }
+         .sample audio {
+         vertical-align: middle;
+         padding-left: 3px;
+         padding-right: 3px;
+         }
+         .round-button {
+         box-sizing: border-box;
+         display:block;
+         width:30px;
+         height:30px;
+         padding-top: 8px;
+         padding-left: 3px;
+         line-height: 6px;
+         border: 1.2px solid #000;
+         border-radius: 50%;
+         color: #000;
+         text-align:center;
+         background-color: rgba(0,0,0,0.00);
+         font-size:6px;
+         box-shadow: 0px 0px 2px rgba(0,0,0,1);
+         transition: all 0.2s ease;
+         }
+         .round-button:hover {
+         background-color: rgba(0,0,0,0.0);
+         box-shadow: 0px 0px 4px rgba(0,0,0,1);
+         }
+         .round-button:active {
+         background-color: rgba(0,0,0,0.01);
+         box-shadow: 0px 0px 1px rgba(0,0,0,1);
+         }
+      </style>
+   </head>
+
+   <body>
+     <div class="main">
+       <article>
+         <header>
+            <h1>Multi-Channel Target Speaker Extraction with Refinement: The WavLab Submission to the Second Clarity Enhancement Challenge [<a href="">paper</a>]</h1>		  
+         </header>
+      </article>
+      <div>
+      </div>
+
+      <p><b>Abstract:</b>
+      This paper describes our submission to the Second Clarity Enhancement Challenge (CEC2), which consists of target speech enhancement for hearing-aid (HA) devices, in a noisy/reverberant environment where multiple competing speakers can be present. 
+Our approach is based on the powerful iterative neural/beamforming enhancement (iNeuBe) framework introduced in [1] plud target speaker extraction. For this reason we call our proposed approach iNeuBe-X where the "X" stands for extraction. 
+Compared to [1] several novelties have been introduced in order to address the specific challenges encountered in the CEC2 setting. 
+Importantly, instead of the TCNDenseNet used in [1], we devise a new, multi-channel, causal DNN adapted from a recent work [2] which alone proves to be quite effective.
+Other novelties regard modifications to ensure low-latency, a new speaker adaptation branch, and a fine-tuning step where we compute an additional loss with respect to a target compensated with the listener audiogram.
+Our best model with no external data reaches an hearing-aid speech perception index (HASPI) score of 0.942% and a scale invariant signal-to-distortion ratio improvement (SI-SDRi) of 18.83 dB on the development set.
+This seems remarkable given the fact that the CEC2 data is extremely challenging: e.g on the development set the mixture SI-SDR is  -12.78 dB. 
+A demo of our submitted system is available in this page.
+      </p>
+
+      <h2>
+        Contents:
+      </h2>
+      <p>
+  <a href="#devset">Some Examples from CEC2 Development Set</a><br>
+  <a href="#references">References</a><br>
+      </p>
+
+
+  <h2 id="devset">Some Examples from CEC2 Development Set</h2>
+
+  <a href="#ex1">S06008</a><br>
+   <a href="#ex2">S06026</a><br>
+   <a href="#ex3">S06012</a><br>
+
+  <h3 id="ex1">S06008</h3>
+  <table style="width:100%">
+    <tr>
+        <td align="left"> 
+		<b>Input Mixture (CH1 left)</b><br />
+        <p style="text-align: center">
+          <img src="examples/Noisy/S06008.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/Noisy/S06008.wav"></audio>
+        </td>
+    <tr> 
+         <b>Anechoic Target (CH1 left)</b><br />
+        <p style="text-align: center">
+          <img src="examples/Target/S06008.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/Target/S06008.wav"></audio>
+        </td>
+    <tr> 
+        <td align="left"> 
+		<b>System with No External Data: DNN1 output (no compensation)</b><br />
+		  <p style="text-align: center">
+          <img src="examples/DNN1_out/S06008.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/DNN1_out/S06008.wav"></audio>
+        </p>
+        </td>
+    <tr>
+        <td align="left"> 
+		<b>System with No External Data: DNN2 output (no compensation)</b><br />
+		  <p style="text-align: center">
+          <img src="examples/DNN2_out/S06008.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/DNN2_out/S06008.wav"></audio>
+        </p>
+        </td>
+    <tr>
+        <td align="left"> 
+		<b>System with No External Data: DNN2 output (with compensation)</b><br />
+		  <p style="text-align: center">
+          <img src="examples/DNN2_out_comp/S06008.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/DNN2_out_comp/S06008.wav"></audio>
+        </p>
+        </td>
+    </tr>
+  </table>  
+  
+  
+  <h3 id="ex2">S06026</h3>
+  <table style="width:100%">
+    <tr>
+        <td align="left"> 
+		<b>Input Mixture (CH1 left)</b><br />
+        <p style="text-align: center">
+          <img src="examples/Noisy/S06026.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/Noisy/S06026.wav"></audio>
+        </td>
+    <tr> 
+         <b>Anechoic Target (CH1 left)</b><br />
+        <p style="text-align: center">
+          <img src="examples/Target/S06026.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/Target/S06026.wav"></audio>
+        </td>
+    <tr> 
+        <td align="left"> 
+		<b>System with No External Data: DNN1 output (no compensation)</b><br />
+		  <p style="text-align: center">
+          <img src="examples/DNN1_out/S06026.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/DNN1_out/S06026.wav"></audio>
+        </p>
+        </td>
+    <tr>
+        <td align="left"> 
+		<b>System with No External Data: DNN2 output (no compensation)</b><br />
+		  <p style="text-align: center">
+          <img src="examples/DNN2_out/S06026.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/DNN2_out/S06026.wav"></audio>
+        </p>
+        </td>
+    <tr>
+        <td align="left"> 
+		<b>System with No External Data: DNN2 output (with compensation)</b><br />
+		  <p style="text-align: center">
+          <img src="examples/DNN2_out_comp/S06026.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/DNN2_out_comp/S06026.wav"></audio>
+        </p>
+        </td>
+    </tr>
+  </table>  
+  
+   <h3 id="ex3">S06012</h3>
+  <table style="width:100%">
+    <tr>
+        <td align="left"> 
+		<b>Input Mixture (CH1 left)</b><br />
+        <p style="text-align: center">
+          <img src="examples/Noisy/S06012.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/Noisy/S06012.wav"></audio>
+        </td>
+    <tr> 
+         <b>Anechoic Target (CH1 left)</b><br />
+        <p style="text-align: center">
+          <img src="examples/Target/S06012.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/Target/S06012.wav"></audio>
+        </td>
+    <tr> 
+        <td align="left"> 
+		<b>System with No External Data: DNN1 output (no compensation)</b><br />
+		  <p style="text-align: center">
+          <img src="examples/DNN1_out/S06012.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/DNN1_out/S06012.wav"></audio>
+        </p>
+        </td>
+    <tr>
+        <td align="left"> 
+		<b>System with No External Data: DNN2 output (no compensation)</b><br />
+		  <p style="text-align: center">
+          <img src="examples/DNN2_out/S06012.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/DNN2_out/S06012.wav"></audio>
+        </p>
+        </td>
+    <tr>
+        <td align="left"> 
+		<b>System with No External Data: DNN2 output (with compensation)</b><br />
+		  <p style="text-align: center">
+          <img src="examples/DNN2_out_comp/S06012.png" width="600" alt=""/> <br />
+          <audio controls=""><source src="examples/DNN2_out_comp/S06012.wav"></audio>
+        </p>
+        </td>
+    </tr>
+  </table>  
+  
+  <!----------------------------------------------------------------------------------------------------------------------------------------------------------------->
+  <!----------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+
+  <h3 id="references">References:</h3>
+         <p>
+  		[1] Lu, Yen-Ju, et al. "Towards Low-Distortion Multi-Channel Speech Enhancement: The ESPNET-Se Submission to the L3DAS22 Challenge." ICASSP 2022-2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP). IEEE, 2022. [<a href="https://ieeexplore.ieee.org/abstract/document/9747146?casa_token=zWs-iPrAz_cAAAAA:n6C7Rb5N-RdXQVMWf5alwQ6LBPb1c61Y_e5QdmXQFpSAF5uweIuoeg94MR3rOIY3ZZSAHj-LyQ">paper</a>]<br />
+  		[2] Wang, Zhong Qiu et al. "TF-MPDNN: Time-Frequency Domain Multi-Path Deep Neural Network for Monaural Anechoic Speaker Separation." In Preparation. 2022 [<a href="https://128.0.0.0">paper</a>]<br />
+         </p>
+
+</div>
+</body>
+</html>
